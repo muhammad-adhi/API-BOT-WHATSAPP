@@ -24,6 +24,11 @@ const { groupResponse_Welcome, groupResponse_Remove, groupResponse_Promote, grou
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./function/Exif_Write");
 const { updateGroup } = require("./function/update_Group");
 
+const { Server } = require( "socket.io");
+
+const io = new Server(3000);
+
+
 let setting = JSON.parse(fs.readFileSync("./config.json"));
 let session = `./${setting.sessionName}.json`;
 const { state, saveState } = useSingleFileAuthState(session);
@@ -36,7 +41,7 @@ const connectToWhatsApp = async () => {
    const conn = makeWASocket({
       printQRInTerminal: true,
       logger: logg({ level: "fatal" }),
-      browser: ["Gurabot MD", "Safari", "1.0.0"],
+      browser: ["Muhammad aldhi", "aldhi", "1.0.0"],
       auth: state,
    });
    Memory_Store.bind(conn.ev);
@@ -178,3 +183,12 @@ const connectToWhatsApp = async () => {
    return conn;
 };
 connectToWhatsApp().catch((err) => console.log(err));
+io.on("connection", (socket) => {
+  // send a message to the client
+  socket.emit("hello from server", 1, "2", { 3: Buffer.from([4]) });
+
+  // receive a message from the client
+  socket.on("hello from client", (...args) => {
+    // ...
+  });
+});
