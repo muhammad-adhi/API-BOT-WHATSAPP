@@ -388,56 +388,58 @@ Video sedang dikirim...`);
       };
 
       conn.readMessages([msg.key]);
-      if (command === "buatroom") {
-         if (cekPesan("id", sender) !== null) return reply("Kamu Sedang Didalam roomchat ketik *#stopchat* untuk menghapus sesi chat.");
-         if (!fs.existsSync(PathAuto + sender.split("@")[0] + ".json")) {
-            var deposit_object = {
-               id: sender,
-               session: "buatroom",
-               data: {
-                  penerima: "",
-               },
-            };
-            fs.writeFileSync(PathAuto + sender.split("@")[0] + ".json", JSON.stringify(deposit_object, null, 2));
-            reply("*Silahkan tulis Nomor WhatsApp yg ingin Di ajak ngobrol*\n\n*Contoh:* 628xxxx");
-         } else {
-            reply("Kamu Sedang di dalam sesi room chat, menunggu konfirmasi dari penerima.");
-         }
-         // }
+      // if (command === "buatroom") {
+      //    if (cekPesan("id", sender) !== null) return reply("Kamu Sedang Didalam roomchat ketik *#stopchat* untuk menghapus sesi chat.");
+      //    if (q) {
+      //       if (!fs.existsSync(PathAuto + sender.split("@")[0] + ".json")) {
+      //          var deposit_object = {
+      //             id: sender,
+      //             session: "buatroom",
+      //             data: {
+      //                penerima: "",
+      //             },
+      //          };
+      //          fs.writeFileSync(PathAuto + sender.split("@")[0] + ".json", JSON.stringify(deposit_object, null, 2));
+      //       } else {
+      //          reply("Kamu Sedang di dalam sesi room chat, menunggu konfirmasi dari penerima.");
+      //       }
+      //    } else {
+      //       reply("*Silahkan tulis Nomor WhatsApp yg ingin Di ajak ngobrol*\n\n*Contoh:* 628xxxx");
+      //    }
+      // }
 
-         if (fs.existsSync(PathAuto + sender.split("@")[0] + ".json")) {
-            if (!chats.startsWith(prefix) && !msg.key.fromMe) {
-               let data_deposit = JSON.parse(fs.readFileSync(PathAuto + sender.split("@")[0] + ".json"));
-               if (data_deposit.session === "buatroom") {
-                  if (chats.length === 0) return;
-                  if (isNaN(chats)) return reply("Hanya angka!");
-                  data_deposit.data.penerima = Number(chats);
-                  if (data_deposit.data.penerima == sender.split("@")[0]) return reply("jangan nomor lu");
-                  if (data_deposit.data.penerima == botNumber.split("@")[0]) return reply("itu kan nomor bot");
-                  var cekap = await conn.onWhatsApp(chats + "@s.whatsapp.net");
-                  if (cekap.length == 0) return reply(`Nomor +${chats}\ntidak terdaftar di WhatsApp\nSilahkan kirim nomor yg valid.`);
-                  data_deposit.session = "number_orang";
-                  fs.writeFileSync(PathAuto + sender.split("@")[0] + ".json", JSON.stringify(data_deposit, null, 3));
-                  var penerimanyo = data_deposit.data.penerima + "@s.whatsapp.net";
-                  mentions(`Berhasil mengirimkan undangan chat ke @${penerimanyo.split("@")[0]} tunggu dia menyetujui undangan tersebut untuk chatan secara anonim jadi dia tidak tau siapa anda`, [
-                     penerimanyo,
-                  ]);
-                  let roomC = `#${makeid(10)}`;
-                  fs.unlinkSync(PathAuto + sender.split("@")[0] + ".json");
-                  var text_tersambung = `*Seseorang Mengajak Chating*\n\n*Dari:* Rahasia\n\nSilahkan klik button ya kak jika ingin menghubungkan chat *ANONYMOUS*`;
-                  let btn_room = [{ buttonId: `${prefix}buat_room_chat ${sender}|${data_deposit.data.penerima}@s.whatsapp.net|${roomC}`, buttonText: { displayText: "Terima️" }, type: 1 }];
-                  var but_room = {
-                     text: text_tersambung,
-                     footer: "Klik button untuk menerima chat.",
-                     buttons: btn_room,
-                     mentions: [penerimanyo],
-                     headerType: 1,
-                  };
-                  conn.sendMessage(`${data_deposit.data.penerima}@s.whatsapp.net`, but_room);
-               }
-            }
-         }
-      } else if (command === "setnamabot") {
+      // if (fs.existsSync(PathAuto + sender.split("@")[0] + ".json")) {
+      //    if (!chats.startsWith(prefix) && !msg.key.fromMe) {
+      //       let data_deposit = JSON.parse(fs.readFileSync(PathAuto + sender.split("@")[0] + ".json"));
+      //       if (data_deposit.session === "buatroom") {
+      //          if (chats.length === 0) return;
+      //          if (isNaN(chats)) return reply("Hanya angka!");
+      //          data_deposit.data.penerima = Number(chats);
+      //          if (data_deposit.data.penerima == sender.split("@")[0]) return reply("jangan nomor lu");
+      //          if (data_deposit.data.penerima == botNumber.split("@")[0]) return reply("itu kan nomor bot");
+      //          var cekap = await conn.onWhatsApp(chats + "@s.whatsapp.net");
+      //          if (cekap.length == 0) return reply(`Nomor +${chats}\ntidak terdaftar di WhatsApp\nSilahkan kirim nomor yg valid.`);
+      //          data_deposit.session = "number_orang";
+      //          fs.writeFileSync(PathAuto + sender.split("@")[0] + ".json", JSON.stringify(data_deposit, null, 3));
+      //          var penerimanyo = data_deposit.data.penerima + "@s.whatsapp.net";
+      //          mentions(`Berhasil mengirimkan undangan chat ke @${penerimanyo.split("@")[0]} tunggu dia menyetujui undangan tersebut untuk chatan secara anonim jadi dia tidak tau siapa anda`, [
+      //             penerimanyo,
+      //          ]);
+      //          let roomC = `#${makeid(10)}`;
+      //          fs.unlinkSync(PathAuto + sender.split("@")[0] + ".json");
+      //          var text_tersambung = `*Seseorang Mengajak Chating*\n\n*Dari:* Rahasia\n\nSilahkan klik button ya kak jika ingin menghubungkan chat *ANONYMOUS*`;
+      //          let btn_room = [{ buttonId: `${prefix}buat_room_chat ${sender}|${data_deposit.data.penerima}@s.whatsapp.net|${roomC}`, buttonText: { displayText: "Terima️" }, type: 1 }];
+      //          var but_room = {
+      //             text: text_tersambung,
+      //             footer: "Klik button untuk menerima chat.",
+      //             buttons: btn_room,
+      //             mentions: [penerimanyo],
+      //             headerType: 1,
+      //          };
+      //          conn.sendMessage(`${data_deposit.data.penerima}@s.whatsapp.net`, but_room);
+      //       }
+      //    }}
+      if (command === "setnamabot") {
          if (!isOwner) return reply(mess.OnlyOwner);
          if (!fs.existsSync(PathAuto + sender.split("@")[0] + ".json")) {
             var deposit_object = {
