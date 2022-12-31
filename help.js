@@ -8,28 +8,29 @@ var monoSpace = "```";
 
 exports.listmenu = (sender, prefix, ad, namenya, premnya, usernya, romnya, tanggal, jam, no) => {
    return `
-   ━━━❲ 山卄卂丅丂卂尸尸-乃口丅 ━━━
-   
-   𝗨𝗦𝗘𝗥 𝗜𝗡𝗙𝗢
-   ID : @${sender.split("@")[0]}
-   Nama : ${namenya}
-   Premium : ${premnya}
-   
-   𝗕𝗢𝗧 𝗜𝗡𝗙𝗢
-   Library : Baileys-MD
-   Time : ${jam} WIB
-   Date : ${tanggal}
-   Terdaftar : ${usernya}
-   Room Chat : ${romnya}
-   
-   𝙈𝘼𝙄𝙉 𝙈𝙀𝙉𝙐
-   ${no++} ➳ ${prefix}menu
-   ${no++} ➳ ${prefix}tanyaAI
-   ${no++} ➳ ${prefix}verify
-   ${no++} ➳ ${prefix}menfess
-   `;
+ ━━━❲ 山卄卂丅丂卂尸尸-乃口丅 ━━━
+ 
+ 𝗨𝗦𝗘𝗥 𝗜𝗡𝗙𝗢
+ ID : @${sender.split("@")[0]}
+ Nama : ${namenya}
+ Premium : ${premnya}
+ 
+ 𝗕𝗢𝗧 𝗜𝗡𝗙𝗢
+ Library : Baileys-MD
+ Time : ${jam} WIB
+ Date : ${tanggal}
+ Terdaftar : ${usernya}
+ Room Chat : ${romnya}
+ 
+ 𝙈𝘼𝙄𝙉 𝙈𝙀𝙉𝙐
+${no++} ➳ ${prefix}menu
+${no++} ➳ ${prefix}tanyaAI
+${no++} ➳ ${prefix}menfess
+${no++} ➳ ${prefix}draw
+${no++} ➳ ${prefix}stiker
+${no++} ➳ ${prefix}stikermeme
+`;
 };
-
 // exports.listmenu = (sender, prefix, ad, namenya, premnya, usernya, romnya, tanggal, jam, no) => {
 //    return `
 // ━━━❲ 山卄卂丅丂卂尸尸-乃口丅 ━━━

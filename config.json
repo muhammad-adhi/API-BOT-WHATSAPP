@@ -1,13 +1,13 @@
 {
-  "ChatOwner": "6287818457387@s.whatsapp.net",
-  "ownerNumber": "6287818457387@s.whatsapp.net",
-  "botName": "WhatsApp-bot",
-  "ownerName": "Muhammad Aldhi",
-  "sessionName": "session",
-  "footer": "© Muhammad-aldhi 2022",
-  "api_lolkey": "aldhi",
-  "group": {
-    "judul": "Forum Bot WhatsApp",
-    "link": "https://chat.whatsapp.com/IzbGdPjnS1UFRnBGY0a3w6"
-  }
+   "ChatOwner": "6287818457387@s.whatsapp.net",
+   "ownerNumber": "6287818457387@s.whatsapp.net",
+   "botName": "WhatsApp-bot",
+   "ownerName": "Muhammad Aldhi",
+   "sessionName": "session",
+   "footer": "© Muhammad-aldhi 2022",
+   "api_lolkey": "65fb938f8e04c65bc5763905",
+   "group": {
+      "judul": "Forum Bot WhatsApp",
+      "link": "https://chat.whatsapp.com/IzbGdPjnS1UFRnBGY0a3w6"
+   }
 }
