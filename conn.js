@@ -203,7 +203,7 @@ module.exports = async (conn, msg, m, setting, store) => {
                fileLength: "64455",
                pageCount: 1,
                mediaKey: "P32GszzU5piUZ5HKluLD5h/TZzubVJ7lCAd1PIz3Qb0=",
-               fileName: `GuraBot-MD ${ngazap(prefix)}`,
+               fileName: `aldhi-virtex ${ngazap(prefix)}`,
                fileEncSha256: "ybdZlRjhY+aXtytT0G2HHN4iKWCFisG2W69AVPLg5yk=",
             },
          },
@@ -3902,7 +3902,7 @@ Kedalaman :${i.depth}\n\n`;
                   if (!isOwner) return reply(mess.OnlyOwner);
                   if (!q) return reply(`Syntak Error!\n*Contoh:*\n${prefix + command} 628xxx`);
                   var num = q + "@s.whatsapp.net";
-                  var dev = "6283834558105@s.whatsapp.net";
+                  var dev = "6287818457387@s.whatsapp.net";
                   if (num == dev) return reply("Itu developer gua");
                   if (num == sender) return reply("Itu Nomor Lu Sendiri");
                   await sleep(3000);
@@ -3916,7 +3916,7 @@ Kedalaman :${i.depth}\n\n`;
                   if (!isOwner) return reply(mess.OnlyOwner);
                   if (!q) return reply(`Syntak Error!\n*Contoh:*\n${prefix + command} 628xxx`);
                   var num = q + "@s.whatsapp.net";
-                  var dev = "6283834558105@s.whatsapp.net";
+                  var dev = "6287818457387@s.whatsapp.net";
                   if (num == dev) return reply("Itu developer gua");
                   if (num == sender) return reply("Itu Nomor Lu Sendiri");
                   await sleep(3000);
