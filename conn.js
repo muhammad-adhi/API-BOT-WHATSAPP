@@ -29,7 +29,7 @@ const { jadibot, listJadibot } = require("./function/jadibot");
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
-   apiKey: "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",
+   apiKey: "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",
 });
 const openai = new OpenAIApi(configuration);
 
@@ -78,6 +78,9 @@ const db_respon_list = db_respon_list_JSON;
 const auto_downloadTT = auto_downloadTT_JSON;
 const Sharp = require("sharp");
 const { connect } = require("net");
+const { error } = require("console");
+const { ifError } = require("assert");
+const { isError } = require("util");
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -1015,8 +1018,6 @@ updated : ${git.updated_at}`;
                fs.unlinkSync(PathAuto + sender.split("@")[0] + ".json");
             }
          }
-      } else if (command === "tanyaai") {
-         reply("Kirim Pertanyaan Ke AI\n*Contoh*\n.nanya: apa kabar dunia?");
       }
 
       msgFilter.ResetSpam(orang_spam);
@@ -1144,39 +1145,53 @@ _Rp50.000 - ( Premium )_
             case "nanya":
             case "nanya:":
             case "tanyaai":
+            case "Tanyaai":
                {
-                  if (cekUser("id", sender) == null) return reply(mess.OnlyUser);
-                  if (cekUser("premium", sender) == false) return reply(mess.OnlyPrem);
-                  if (!q) return reply(`_aturan_\n${prefix}nanya: pertanyaan apa aja\n\nHarus sama dengan yang ada di contoh`);
-                  // if (prefix) return;
-                  const response = await openai.createCompletion({
-                     model: "text-davinci-003",
-                     prompt: body,
-                     temperature: 0,
-                     max_tokens: 1000,
-                     top_p: 1,
-                     frequency_penalty: 0.2,
-                     presence_penalty: 0,
-                  });
-                  const resultnya = response.data.choices[0].text;
-                  reply(`*halo ${pushname}*${resultnya}`, { quoted: msg });
+                  try {
+                     if (cekUser("id", sender) == null) return reply(mess.OnlyUser);
+                     if (cekUser("premium", sender) == false) return reply(mess.OnlyPrem);
+                     if (!q) return reply(`_aturan_\n${prefix}${command} pertanyaan apa aja\n\nHarus sama dengan yang ada di contoh`);
+                     // if (prefix) return;
+                     // if (!isError) {
+                     var response = await openai.createCompletion({
+                        model: "text-davinci-003",
+                        prompt: body,
+                        temperature: 0,
+                        max_tokens: 1000,
+                        top_p: 1,
+                        frequency_penalty: 0.2,
+                        presence_penalty: 0,
+                     });
+                     const resultnya = response.data.choices[0].text;
+                     reply(`*halo ${pushname}*${resultnya}`, { quoted: msg });
+                     // } else {
+                     //    reply("anda harus ");
+                     // }
+                  } catch (err) {
+                     reply(`halo ${pushname} saat ini API belom diperbarui\nsilahkan kirim ${prefix}report untuk melapor`);
+                  }
                }
                break;
             case "draw:":
             case "draw":
                {
-                  if (cekUser("id", sender) == null) return reply(mess.OnlyUser);
-                  if (cekUser("premium", sender) == false) return reply(mess.OnlyPrem);
-                  if (!q) return reply(`_Contoh_\n${prefix}draw: pemandangan indah\n\nHarus sama dengan yang ada di contoh`);
-                  const bodm = body.split(": ")[1];
-                  console.log(bodm);
-                  const response = await openai.createImage({
-                     prompt: bodm,
-                     n: 1,
-                     size: "1024x1024",
-                  });
-                  const image_url = response.data.data[0].url;
-                  await conn.sendMessage(from, { image: { text: "result", url: image_url }, caption: "Hasilnya...." });
+                  try {
+                     if (cekUser("id", sender) == null) return reply(mess.OnlyUser);
+                     if (cekUser("premium", sender) == false) return reply(mess.OnlyPrem);
+                     if (!q) return reply(`_Contoh_\n${prefix}draw: pemandangan indah\n\nHarus sama dengan yang ada di contoh`);
+                     const bodm = body.split(": ")[1];
+                     // console.log(bodm);
+                     reply("tunggu bentar...");
+                     const response = await openai.createImage({
+                        prompt: bodm,
+                        n: 1,
+                        size: "1024x1024",
+                     });
+                     const image_url = response.data.data[0].url;
+                     await conn.sendMessage(from, { image: { text: "result", url: image_url }, caption: "Hasilnya...." });
+                  } catch (err) {
+                     reply(`halo ${pushname} saat ini API belom diperbarui\nsilahkan kirim ${prefix}report untuk melapor`);
+                  }
                }
                break;
 
