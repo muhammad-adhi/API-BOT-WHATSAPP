@@ -49,6 +49,11 @@ const connectToWhatsApp = async () => {
 
    conn.ev.on("messages.upsert", async (m) => {
       var msg = m.messages[0];
+      // const responseList = m.messages[0].message.listResponseMessage;
+      // const pilihanlist = responseList.singleSelectReply.selectedRowId;
+      // const selectedRowId = responseList?.singleSelectReply?.selectedRowId ?? 0;
+      // const selectedRowId = responseList && responseList.singleSelectReply ? responseList.singleSelectReply.selectedRowId : 0;
+      // var { messages } = m;
       if (!m.messages) return;
       if (msg.key && msg.key.remoteJid == "status@broadcast") return;
       msg = serialize(conn, msg);

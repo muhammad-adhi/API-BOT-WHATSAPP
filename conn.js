@@ -86,6 +86,10 @@ moment.tz.setDefault("Asia/Jakarta").locale("id");
 
 module.exports = async (conn, msg, m, setting, store) => {
    try {
+      const responseList = m.messages[0].message.listResponseMessage;
+      // const pilihanlist = responseList.singleSelectReply.selectedRowId;
+      // const selectedRowId = responseList?.singleSelectReply?.selectedRowId ?? 0;
+      const pilihanlist = responseList?.singleSelectReply?.selectedRowId ?? 0;
       let { ownerNumber, botName, smm_dana_nama, smm_dana_number } = setting;
       const { type, quotedMsg, mentioned, now, fromMe, isBaileys } = msg;
       if (msg.isBaileys) return;
@@ -712,6 +716,8 @@ _Sedang mengirim video.._`);
                fs.unlinkSync(PathAuto + sender.split("@")[0] + ".json");
             }
          }
+      } else if (pilihanlist == "nanya") {
+         reply("halo bro");
       } else if (command === "ytmp3") {
          if (!fs.existsSync(PathAuto + sender.split("@")[0] + ".json")) {
             var deposit_object = {
