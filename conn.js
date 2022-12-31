@@ -24,7 +24,7 @@ const { mediafireDl } = require("./function/scrape_Mediafire");
 const { webp2mp4File } = require("./function/Webp_Tomp4");
 const { cerpen } = require("./function/Search_Cerpen");
 const { bioskop, bioskopNow, latinToAksara, aksaraToLatin, gempa, gempaNow, jadwalTV, listJadwalTV, jadwalsholat } = require("@bochilteam/scraper");
-const { listmenu, rulesBot, donasiBot, infoOwner } = require("./help");
+const { listmenu, rulesBot, donasiBot, infoOwner, lismsg } = require("./help");
 const { jadibot, listJadibot } = require("./function/jadibot");
 const { Configuration, OpenAIApi } = require("openai");
 
@@ -66,6 +66,7 @@ const mekih = fs.readFileSync("./function/mod.jpg");
 let orang_spam = [];
 let medianya = [];
 
+const { sendListMessage } = require("./main.js");
 const mess = mess_JSON;
 const setting = setting_JSON;
 const antilink = antilink_JSON;
@@ -1216,8 +1217,26 @@ _Rp50.000 - ( Premium )_
             case "infoowner":
             case "ownerinfo":
                {
-                  reply(infoOwner());
+                  await conn.sendMessage(from, {
+                     text: `*Halo ${pushname}*\n\nSelamat Datang di Bot whatsapp kami. silahkan tekan menu untuk menggunakan feature bot\n\n`,
+                     footer: "©Aldhi2022",
+                     buttonText: "Menu",
+                     sections: lismsg,
+                  });
+                  // const listMsg = {
+                  //    text: `Hi @${sender.split("@")[0]}`,
+                  //    buttonText: "Click Here!",
+                  //    footer: `*List From ${groupName}*\n\n⏳ ${jam}\n📆 ${tanggal}`,
+                  //    sections: lismsg,
+                  // };
+                  // await conn.sendMessage(from, listMsg);
+                  // const bodi = `*Halo ${pushname}*\n\nSelamat Datang di Bot whatsapp kami\nsilahkan tekan menu untuk menggunakan feature bot\n\n`;
+                  // const footer = "©Aldhi2022";
+                  // const buttonText = "Menu";
+                  // await conn.sendListMessage(from, bodi, footer, buttonText, sections);
+                  // reply(ownermenu());
                }
+
                break;
             case "infogempa":
                fetchJson(`https://saipulanuar.ga/api/info/gempa?apikey=jPHjZpQF`).then((xg) => {

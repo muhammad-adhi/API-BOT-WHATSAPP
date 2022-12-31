@@ -31,6 +31,17 @@ ${no++} ➳ ${prefix}stiker
 ${no++} ➳ ${prefix}stikermeme
 `;
 };
+exports.lismsg = [
+   {
+      title: "List Feature Bot",
+      rows: [
+         { title: "Nanya AI", rowId: "nanya" },
+         { title: "Ubah Background", rowId: "bg" },
+         { title: "Menfes", rowId: "menfes" },
+         { title: "Stiker", rowId: "stiker" },
+      ],
+   },
+];
 // exports.listmenu = (sender, prefix, ad, namenya, premnya, usernya, romnya, tanggal, jam, no) => {
 //    return `
 // ━━━❲ 山卄卂丅丂卂尸尸-乃口丅 ━━━

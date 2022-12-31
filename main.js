@@ -25,6 +25,8 @@ const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./func
 const { updateGroup } = require("./function/update_Group");
 
 const { Server } = require("socket.io");
+const conn = require("./conn");
+const { lismsg } = require("./help");
 
 const io = new Server(3000);
 
@@ -92,6 +94,16 @@ const connectToWhatsApp = async () => {
          : Buffer.alloc(0);
       return await conn.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted });
    };
+
+   // conn.sendListMessage = async (from, sections, quoted) => {
+   //    const listMessage = {
+   //       text: `*Halo ${pushname}*\n\nSelamat Datang di Bot whatsapp kami\nsilahkan tekan menu untuk menggunakan feature bot\n\n`,
+   //       footer: "©Aldhi2022",
+   //       buttonText: "Menu",
+   //       sections,
+   //    };
+   //    return await conn.sendMessage(from, listMessage, { quoted });
+   // };
 
    conn.decodeJid = (jid) => {
       if (!jid) return jid;
@@ -182,6 +194,7 @@ const connectToWhatsApp = async () => {
    };
    return conn;
 };
+
 connectToWhatsApp().catch((err) => console.log(err));
 io.on("connection", (socket) => {
    // send a message to the client
