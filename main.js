@@ -24,11 +24,8 @@ const { groupResponse_Welcome, groupResponse_Remove, groupResponse_Promote, grou
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./function/Exif_Write");
 const { updateGroup } = require("./function/update_Group");
 
-const { Server } = require("socket.io");
 const conn = require("./conn");
 const { lismsg } = require("./help");
-
-const io = new Server(3000);
 
 let setting = JSON.parse(fs.readFileSync("./config.json"));
 let session = `./${setting.sessionName}.json`;
@@ -40,20 +37,16 @@ const reconnect = new Spinner(chalk.redBright(` Reconnecting WhatsApp Bot`));
 
 const connectToWhatsApp = async () => {
    const conn = makeWASocket({
-      printQRInTerminal: true,
+      // printQRInTerminal: true,
       logger: logg({ level: "fatal" }),
       browser: ["Muhammad aldhi", "aldhi", "1.0.0"],
       auth: state,
    });
+   module.exports = { conn };
    Memory_Store.bind(conn.ev);
 
    conn.ev.on("messages.upsert", async (m) => {
       var msg = m.messages[0];
-      // const responseList = m.messages[0].message.listResponseMessage;
-      // const pilihanlist = responseList.singleSelectReply.selectedRowId;
-      // const selectedRowId = responseList?.singleSelectReply?.selectedRowId ?? 0;
-      // const selectedRowId = responseList && responseList.singleSelectReply ? responseList.singleSelectReply.selectedRowId : 0;
-      // var { messages } = m;
       if (!m.messages) return;
       if (msg.key && msg.key.remoteJid == "status@broadcast") return;
       msg = serialize(conn, msg);
@@ -201,12 +194,5 @@ const connectToWhatsApp = async () => {
 };
 
 connectToWhatsApp().catch((err) => console.log(err));
-io.on("connection", (socket) => {
-   // send a message to the client
-   socket.emit("hello from server", 1, "2", { 3: Buffer.from([4]) });
 
-   // receive a message from the client
-   socket.on("hello from client", (...args) => {
-      // ...
-   });
-});
+// send message

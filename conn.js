@@ -29,7 +29,7 @@ const { jadibot, listJadibot } = require("./function/jadibot");
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
-   apiKey: "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",
+   apiKey: "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",
 });
 const openai = new OpenAIApi(configuration);
 
@@ -82,13 +82,23 @@ const { error } = require("console");
 const { ifError } = require("assert");
 const { isError } = require("util");
 
+const express = require("express");
+const http = require("http");
+const app = express();
+const server = http.createServer(app);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+   res.sendFile("index.html", { root: __dirname });
+});
+
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
 module.exports = async (conn, msg, m, setting, store) => {
    try {
       const responseList = m.messages[0].message.listResponseMessage;
-      // const pilihanlist = responseList.singleSelectReply.selectedRowId;
-      // const selectedRowId = responseList?.singleSelectReply?.selectedRowId ?? 0;
       const pilihanlist = responseList?.singleSelectReply?.selectedRowId ?? 0;
       let { ownerNumber, botName, smm_dana_nama, smm_dana_number } = setting;
       const { type, quotedMsg, mentioned, now, fromMe, isBaileys } = msg;
@@ -716,8 +726,6 @@ _Sedang mengirim video.._`);
                fs.unlinkSync(PathAuto + sender.split("@")[0] + ".json");
             }
          }
-      } else if (pilihanlist == "nanya") {
-         reply("halo bro");
       } else if (command === "ytmp3") {
          if (!fs.existsSync(PathAuto + sender.split("@")[0] + ".json")) {
             var deposit_object = {
@@ -1093,6 +1101,11 @@ updated : ${git.updated_at}`;
 
       if (!isGroup) {
          // if (isCommand) {
+         switch (pilihanlist) {
+            case "nanya": {
+               reply("halo");
+            }
+         }
          switch (command) {
             case "verify":
                {
@@ -1160,6 +1173,7 @@ _Rp50.000 - ( Premium )_
                      if (cekUser("id", sender) == null) return reply(mess.OnlyUser);
                      if (cekUser("premium", sender) == false) return reply(mess.OnlyPrem);
                      if (!q) return reply(`_aturan_\n${prefix}${command} pertanyaan apa aja\n\nHarus sama dengan yang ada di contoh`);
+                     reply("tunggu bentar...");
                      // if (prefix) return;
                      // if (!isError) {
                      var response = await openai.createCompletion({
@@ -4320,7 +4334,28 @@ Video sedang dikirim...`);
       server_eror.push({ error: `${err}` });
       fs.writeFileSync("./database/func_error.json", JSON.stringify(server_eror));
    }
-   const reply = (teks) => {
-      conn.sendMessage(from, { text: teks }, { quoted: msg });
-   };
 };
+
+app.post("/send-message", (req, res) => {
+   const number = req.body.number;
+   const message = req.body.message;
+   const { conn } = require("./main");
+   conn
+      .sendMessage(number, message)
+      .then((response) => {
+         res.status(200).json({
+            status: true,
+            response: response,
+         });
+      })
+      .catch((err) => {
+         res.status(500).json({
+            status: false,
+            response: err,
+         });
+      });
+});
+
+server.listen(8000, function () {
+   console.log("app run on *:" + 8000);
+});
