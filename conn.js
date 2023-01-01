@@ -82,18 +82,6 @@ const { error } = require("console");
 const { ifError } = require("assert");
 const { isError } = require("util");
 
-const express = require("express");
-const http = require("http");
-const app = express();
-const server = http.createServer(app);
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.get("/", (req, res) => {
-   res.sendFile("index.html", { root: __dirname });
-});
-
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
 module.exports = async (conn, msg, m, setting, store) => {
@@ -4336,19 +4324,35 @@ Video sedang dikirim...`);
    }
 };
 
+const express = require("express");
+const http = require("http");
+const app = express();
+const server = http.createServer(app);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+   res.sendFile("index.html", { root: __dirname });
+});
+
 app.post("/send-message", (req, res) => {
-   const number = req.body.number;
-   const message = req.body.message;
-   const { conn } = require("./main");
+   let number = req.body.number;
+   let message = req.body.message;
+   const { conn } = require("./main.js");
+
+   // console.log(number, message);
    conn
-      .sendMessage(number, message)
+      .sendMessage(number, { text: `${message}` })
       .then((response) => {
+         console.log(`Pesan berhasil dikirim: ${response}`);
          res.status(200).json({
             status: true,
             response: response,
          });
       })
       .catch((err) => {
+         console.error(`Error: ${err}`);
          res.status(500).json({
             status: false,
             response: err,
