@@ -27,12 +27,11 @@ const { bioskop, bioskopNow, latinToAksara, aksaraToLatin, gempa, gempaNow, jadw
 const { listmenu, rulesBot, donasiBot, infoOwner, lismsg } = require("./help");
 const { jadibot, listJadibot } = require("./function/jadibot");
 const { Configuration, OpenAIApi } = require("openai");
-
+const { API_OPENAI } = require("./config.json");
 const configuration = new Configuration({
-   apiKey: "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",
+   apiKey: API_OPENAI,
 });
 const openai = new OpenAIApi(configuration);
-
 // database virtex
 const { philips } = require("./function/virtex/philips");
 const { virus } = require("./function/virtex/virus");
@@ -1088,12 +1087,32 @@ updated : ${git.updated_at}`;
       }
 
       if (!isGroup) {
-         // if (isCommand) {
+         const more = String.fromCharCode(8206);
+         const readmore = more.repeat(4001);
+         var no = 1;
+         var ad = 1;
+         let namenya = `${cekUser("name", sender)}`;
+         let premnya = `${cekUser("premium", sender) ? "Aktif" : "Tidak"}`;
+         let usernya = `${("id", db_user).length}`;
+         let romnya = `${db_menfes.length}`;
+         const gurbot = "6287818457387@s.whatsapp.net";
+         const mark_slebew = "0@s.whatsapp.net";
+         var footer_nya = `𝑷𝒐𝒘𝒆𝒓𝒆𝒅 𝑩𝒚 aldhi`;
+         var menu_nya = `${listmenu(sender, prefix, ad, namenya, premnya, usernya, romnya, tanggal, jam, no)}`;
+         let btn_menu = [{ buttonId: `${prefix}owner`, buttonText: { displayText: "𝗢𝗪𝗡𝗘𝗥" }, type: 1 }];
+         var but_menu = {
+            text: menu_nya,
+            footer: footer_nya,
+            buttons: btn_menu,
+            mentions: [sender, mark_slebew],
+            headerType: 1,
+         };
          switch (pilihanlist) {
             case "nanya": {
-               reply("halo");
+               await conn.sendMessage(from, but_menu);
             }
          }
+         // if (isCommand) {
          switch (command) {
             case "verify":
                {
@@ -1209,26 +1228,6 @@ _Rp50.000 - ( Premium )_
             case "menu":
                {
                   if (cekUser("id", sender) == null) return reply(mess.OnlyUser);
-                  const more = String.fromCharCode(8206);
-                  const readmore = more.repeat(4001);
-                  var no = 1;
-                  var ad = 1;
-                  let namenya = `${cekUser("name", sender)}`;
-                  let premnya = `${cekUser("premium", sender) ? "Aktif" : "Tidak"}`;
-                  let usernya = `${("id", db_user).length}`;
-                  let romnya = `${db_menfes.length}`;
-                  const gurbot = "6287818457387@s.whatsapp.net";
-                  const mark_slebew = "0@s.whatsapp.net";
-                  var footer_nya = `𝑷𝒐𝒘𝒆𝒓𝒆𝒅 𝑩𝒚 @${gurbot.split("@")[0]}`;
-                  var menu_nya = `${listmenu(sender, prefix, ad, namenya, premnya, usernya, romnya, tanggal, jam, no)}`;
-                  let btn_menu = [{ buttonId: `${prefix}owner`, buttonText: { displayText: "𝗢𝗪𝗡𝗘𝗥" }, type: 1 }];
-                  var but_menu = {
-                     text: menu_nya,
-                     footer: footer_nya,
-                     buttons: btn_menu,
-                     mentions: [sender, mark_slebew],
-                     headerType: 1,
-                  };
                   conn.sendMessage(from, but_menu, { quoted: msg });
                }
                break;
@@ -4333,7 +4332,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-   res.sendFile("index.html", { root: __dirname });
+   res.sendFile("./view/index.html", { root: __dirname });
 });
 
 app.post("/send-message", (req, res) => {
